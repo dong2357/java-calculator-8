@@ -5,15 +5,19 @@ import java.util.regex.Pattern;
 
 public class Application {
     public static void main(String[] args) {
-        // TODO: 프로그램 구현
-        System.out.println("Input calc string:");
-        String input = Console.readLine();
+        try {
+            System.out.println("Input calc string:");
+            String input = Console.readLine();
 
-        String processedInput = input.replace("\\n", "\n");
+            String processedInput = input.replace("\\n", "\n");
 
-        int result = add(processedInput);
+            int result = add(processedInput);
 
-        System.out.println("result: " + result);
+            System.out.println("result: " + result);
+        }catch (IllegalArgumentException e) {
+            //add 메소드에서 던진 예외를 여기서 잡음
+            System.err.println(e.getMessage());
+        }
     }
 
     public static int add(String text){
@@ -35,15 +39,29 @@ public class Application {
 
         String[] numbers = numbersText.split(delimiter);
 
+        return getSum(numbers);
+    }
+
+    private static int getSum(String[] numbers){
         int sum = 0;
         for(String numberStr : numbers){
             String trimmedStr = numberStr.trim();
             if (trimmedStr.isEmpty()){
                 continue;
             }
-            sum+= Integer.parseInt(trimmedStr);
-        }
 
+            int number;
+            try{
+                number = Integer.parseInt(trimmedStr);
+            } catch (NumberFormatException e) {
+                throw new IllegalArgumentException("숫자가 아닌 값이 포함되어 있습니다: \"" + trimmedStr + "\"");
+            }
+            //음수 값에 대한 예외처리
+            if (number < 0){
+                throw new IllegalArgumentException("음수는 허용되지 않습니다: " + number);
+            }
+            sum+=number;
+        }
         return sum;
     }
 }
