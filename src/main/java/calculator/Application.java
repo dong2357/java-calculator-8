@@ -5,19 +5,16 @@ import java.util.regex.Pattern;
 
 public class Application {
     public static void main(String[] args) {
-        try {
-            System.out.println("Input calc string:");
-            String input = Console.readLine();
 
-            String processedInput = input.replace("\\n", "\n");
+        System.out.println("덧셈할 문자열을 입력해 주세요.");
+        String input = Console.readLine();
 
-            int result = add(processedInput);
+        String processedInput = input.replace("\\n", "\n");
 
-            System.out.println("result: " + result);
-        }catch (IllegalArgumentException e) {
-            //add 메소드에서 던진 예외를 여기서 잡음
-            System.err.println(e.getMessage());
-        }
+        int result = add(processedInput);
+
+        System.out.println("결과 : " + result);
+
     }
 
     public static int add(String text){
@@ -54,11 +51,11 @@ public class Application {
             try{
                 number = Integer.parseInt(trimmedStr);
             } catch (NumberFormatException e) {
-                throw new IllegalArgumentException("숫자가 아닌 값이 포함되어 있습니다: \"" + trimmedStr + "\"");
+                throw new IllegalArgumentException();
             }
             //음수 값에 대한 예외처리
             if (number < 0){
-                throw new IllegalArgumentException("음수는 허용되지 않습니다: " + number);
+                throw new IllegalArgumentException();
             }
             sum+=number;
         }
